@@ -77,7 +77,7 @@ resource "aws_eip" "public_ip" {
   instance = aws_instance.public_ec2.id
 }
 
-resource "aws_instance" "private_ec2" {
+resource "aws_instance" "private_ec2_api" {
   ami           = var.ami_id
   instance_type = var.instance_type
   subnet_id     = var.private_subnet_id
@@ -95,11 +95,11 @@ resource "aws_instance" "private_ec2" {
             EOF
 
   tags = {
-    Name = var.private_ec2_name
+    Name = var.private_ec2_api_name
   }
 }
 
-resource "aws_instance" "private_ec2_b" {
+resource "aws_instance" "private_ec2_api_2" {
   ami           = var.ami_id
   instance_type = var.instance_type
   subnet_id     = var.private_subnet_id
@@ -117,7 +117,26 @@ resource "aws_instance" "private_ec2_b" {
             EOF
 
   tags = {
-    Name = "private-ec2-b"
+    Name = "private-ec2-api-2"
+  }
+}
+
+resource "aws_instance" "private_ec2_db" {
+  ami           = var.ami_id
+  instance_type = var.instance_type
+  subnet_id     = var.private_subnet_id
+  security_groups = [aws_security_group.ec2_sg.id]
+  key_name      = aws_key_pair.generated_key.key_name
+
+  user_data = <<-EOF
+              #!/bin/bash
+              apt update -y
+              git clone https://github.com/6Nexus/nexus-script-instalacao.git /home/ubuntu/script
+              
+            EOF
+
+  tags = {
+    Name = "private-ec2-db"
   }
 }
 

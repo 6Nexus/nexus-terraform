@@ -45,9 +45,9 @@ variable "public_ec2_name" {
   default = "public-ec2"
 }
 
-variable "private_ec2_name" {
+variable "private_ec2_api_name" {
   type    = string
-  default = "private-ec2"
+  default = "private-ec2-api"
 }
 
 variable "ebs_volume_name" {
