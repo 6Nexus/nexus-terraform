@@ -73,8 +73,9 @@ resource "aws_instance" "public_ec2" {
   }
 }
 
-resource "aws_eip" "public_ip" {
-  instance = aws_instance.public_ec2.id
+resource "aws_eip_association" "public_ip_association" {
+  instance_id   = aws_instance.public_ec2.id
+  allocation_id = "eipalloc-00624c5def75791ba"
 }
 
 resource "aws_instance" "private_ec2_api" {
